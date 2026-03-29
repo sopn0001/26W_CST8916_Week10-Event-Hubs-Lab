@@ -173,6 +173,35 @@
 </div>
 
 <script>
+
+  function detectDeviceInfo() {
+      const ua = navigator.userAgent;
+
+      // OS detection
+      let os = "Unknown";
+      if (/android/i.test(ua))                          os = "Android";
+      else if (/iphone|ipad|ipod/i.test(ua))            os = "iOS";
+      else if (/windows nt/i.test(ua))                  os = "Windows";
+      else if (/macintosh|mac os x/i.test(ua))          os = "macOS";
+      else if (/linux/i.test(ua))                       os = "Linux";
+
+      // Browser detection
+      let browser = "Unknown";
+      if (/edg\//i.test(ua))                            browser = "Edge";
+      else if (/opr\//i.test(ua))                       browser = "Opera";
+      else if (/chrome\/[\d.]+/i.test(ua))              browser = "Chrome";
+      else if (/firefox\/[\d.]+/i.test(ua))             browser = "Firefox";
+      else if (/safari\/[\d.]+/i.test(ua))              browser = "Safari";
+
+      // Device type detection
+      let deviceType = "desktop";
+      if (/android|iphone|ipod/i.test(ua))              deviceType = "mobile";
+      else if (/ipad|tablet/i.test(ua))                 deviceType = "tablet";
+      else if (navigator.maxTouchPoints > 1 && /macintosh/i.test(ua)) deviceType = "tablet"; // iPad with desktop UA
+
+      return { os, browser, deviceType };
+    }
+
   // ── Product catalogue ──────────────────────────────────────────
   const PRODUCTS = [
     { id: "p_shoe_01",   name: "Trail Runners",    price: 89.99,  emoji: "👟", page: "/products/shoes" },
@@ -232,6 +261,11 @@
       user_id:    USER_ID,
       session_id: SESSION_ID,
     };
+
+    const { os, browser, deviceType } = detectDeviceInfo();
+      payload.os = os;
+      payload.browser = browser;
+      payload.device_type = deviceType;
 
     // Send the event to the Flask /track endpoint
     fetch("/track", {
