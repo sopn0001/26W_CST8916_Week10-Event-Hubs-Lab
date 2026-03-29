@@ -57,7 +57,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
-      padding: 24px;
+      padding: 24px 24px 0;
     }
     .kpi {
       background: #161b22;
@@ -65,20 +65,21 @@
       border-radius: 10px;
       padding: 18px 24px;
       flex: 1;
-      min-width: 160px;
+      min-width: 150px;
     }
     .kpi .label { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
     .kpi .value { font-size: 2rem; font-weight: 700; margin-top: 6px; color: #58a6ff; }
     .kpi .value.green  { color: #3fb950; }
     .kpi .value.yellow { color: #e3b341; }
     .kpi .value.red    { color: #f85149; }
+    .kpi .value.purple { color: #bc8cff; }
 
     /* ── Section layout ─────────────────────────────────────── */
     .panels {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
-      padding: 0 24px 24px;
+      padding: 16px 24px 24px;
     }
     .panel {
       background: #161b22;
@@ -94,9 +95,22 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+    .panel h3 .source-badge {
+      font-size: 0.65rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .source-sa     { background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb; }
+    .source-local  { background: #3fb95022; color: #3fb950; border: 1px solid #3fb950; }
 
-    /* ── Bar chart ──────────────────────────────────────────── */
+    /* ── Bar chart (event type) ──────────────────────────────── */
     .bar-row {
       display: flex;
       align-items: center;
@@ -108,11 +122,91 @@
     .bar-fill  { height: 100%; background: #1f6feb; border-radius: 4px; transition: width 0.4s ease; }
     .bar-count { width: 30px; text-align: right; font-size: 0.85rem; color: #8b949e; }
 
+    /* ── Device breakdown ───────────────────────────────────── */
+    .device-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+    .device-icon { font-size: 1.3rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .device-name { width: 70px; font-size: 0.85rem; color: #c9d1d9; flex-shrink: 0; text-transform: capitalize; }
+    .device-track { flex: 1; background: #21262d; border-radius: 4px; height: 20px; overflow: hidden; }
+    .device-fill  { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+    .fill-desktop { background: linear-gradient(90deg, #1f6feb, #388bfd); }
+    .fill-mobile  { background: linear-gradient(90deg, #3fb950, #56d364); }
+    .fill-tablet  { background: linear-gradient(90deg, #e3b341, #f0c05a); }
+    .fill-unknown { background: #484f58; }
+    .device-count { width: 50px; text-align: right; font-size: 0.82rem; color: #8b949e; }
+    .device-pct   { width: 42px; text-align: right; font-size: 0.78rem; color: #484f58; }
+
+    /* ── Spike timeline ─────────────────────────────────────── */
+    .spike-grid {
+      display: flex;
+      gap: 5px;
+      align-items: flex-end;
+      height: 100px;
+      margin-bottom: 8px;
+    }
+    .spike-bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+    }
+    .spike-bar-track {
+      flex: 1;
+      width: 100%;
+      background: #21262d;
+      border-radius: 3px 3px 0 0;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .spike-bar-fill {
+      width: 100%;
+      border-radius: 3px 3px 0 0;
+      transition: height 0.4s ease;
+      min-height: 2px;
+    }
+    .spike-bar-fill.normal { background: #1f6feb; }
+    .spike-bar-fill.spike  { background: #f85149; }
+    .spike-label {
+      font-size: 0.6rem;
+      color: #484f58;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .spike-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 0.75rem;
+      color: #8b949e;
+    }
+    .spike-legend span { display: flex; align-items: center; gap: 5px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+    .dot-normal { background: #1f6feb; }
+    .dot-spike  { background: #f85149; }
+    .spike-status {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .spike-status.alert  { background: #f8514922; color: #f85149; border: 1px solid #f8514944; }
+    .spike-status.normal { background: #3fb95022; color: #3fb950; border: 1px solid #3fb95044; }
+
     /* ── Event feed ─────────────────────────────────────────── */
     #feed {
       font-family: "Courier New", monospace;
       font-size: 0.78rem;
-      max-height: 320px;
+      max-height: 280px;
       overflow-y: auto;
     }
     .feed-row {
@@ -122,18 +216,18 @@
       border-bottom: 1px solid #21262d;
     }
     .feed-row:last-child { border-bottom: none; }
-    .feed-ts    { color: #484f58; flex-shrink: 0; width: 90px; }
-    .feed-type  { flex-shrink: 0; width: 110px; }
-    .feed-page  { color: #8b949e; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .feed-user  { color: #484f58; flex-shrink: 0; width: 60px; }
+    .feed-ts     { color: #484f58; flex-shrink: 0; width: 90px; }
+    .feed-type   { flex-shrink: 0; width: 110px; }
+    .feed-device { flex-shrink: 0; width: 64px; font-size: 0.72rem; color: #8b949e; }
+    .feed-page   { color: #8b949e; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     /* event type colours */
-    .t-page_view    { color: #58a6ff; }
-    .t-product_click{ color: #3fb950; }
-    .t-add_to_cart  { color: #e3b341; }
-    .t-purchase     { color: #f85149; }
-    .t-banner_click { color: #bc8cff; }
-    .t-unknown      { color: #8b949e; }
+    .t-page_view     { color: #58a6ff; }
+    .t-product_click { color: #3fb950; }
+    .t-add_to_cart   { color: #e3b341; }
+    .t-purchase      { color: #f85149; }
+    .t-banner_click  { color: #bc8cff; }
+    .t-unknown       { color: #8b949e; }
 
     /* ── Footer ─────────────────────────────────────────────── */
     footer {
@@ -143,6 +237,9 @@
       font-size: 0.78rem;
       border-top: 1px solid #21262d;
     }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    .empty { color: #484f58; font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -152,9 +249,7 @@
   <h1>ShopStream – Live Analytics</h1>
   <div style="display:flex; align-items:center; gap:16px;">
     <div class="live-badge"><div class="dot"></div> LIVE</div>
-    <nav>
-      <a href="/">← Back to Store</a>
-    </nav>
+    <nav><a href="/">← Back to Store</a></nav>
   </div>
 </header>
 
@@ -176,40 +271,74 @@
     <div class="label">Purchases</div>
     <div class="value red" id="kpi-purchase">–</div>
   </div>
+  <div class="kpi">
+    <div class="label">Active Devices</div>
+    <div class="value purple" id="kpi-devices">–</div>
+  </div>
 </div>
 
-<!-- ── Panels ─────────────────────────────────────────────────── -->
+<!-- ── Row 1: Event type breakdown + Live feed ────────────────── -->
 <div class="panels">
 
   <!-- Event type breakdown -->
-  <div class="panel" style="max-width:400px;">
+  <div class="panel" style="max-width:380px; flex: 0 1 380px;">
     <h3>Events by Type</h3>
     <div id="bar-chart">
-      <p style="color:#484f58; font-size:0.85rem;">Waiting for events...</p>
+      <p class="empty">Waiting for events…</p>
     </div>
   </div>
 
   <!-- Live event feed -->
   <div class="panel">
-    <h3>Live Event Feed (from Azure Event Hubs)</h3>
+    <h3>Live Event Feed (Azure Event Hubs)</h3>
     <div id="feed">
-      <p style="color:#484f58; font-size:0.85rem;">Waiting for events...</p>
+      <p class="empty">Waiting for events…</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Row 2: Stream Analytics insights ───────────────────────── -->
+<div class="panels">
+
+  <!-- Device type breakdown (SA Query 1) -->
+  <div class="panel">
+    <h3>
+      Device Traffic Breakdown
+      <span class="source-badge source-local" id="device-source-badge">local</span>
+    </h3>
+    <div id="device-breakdown">
+      <p class="empty">Waiting for data…</p>
+    </div>
+  </div>
+
+  <!-- Traffic spike detection (SA Query 2) -->
+  <div class="panel">
+    <h3>
+      Traffic Spike Detection
+      <span class="source-badge source-local" id="spike-source-badge">local</span>
+    </h3>
+    <div id="spike-chart">
+      <p class="empty">Waiting for data…</p>
     </div>
   </div>
 
 </div>
 
 <footer>
-  Polling <code>/api/events</code> every 2 seconds &nbsp;|&nbsp;
-  Events consumed from Azure Event Hubs &nbsp;|&nbsp;
+  Raw events: <code>/api/events</code> polled every 2 s &nbsp;|&nbsp;
+  Analytics: <code>/api/analytics</code> polled every 5 s &nbsp;|&nbsp;
+  Stream Analytics: TumblingWindow(30 s) + HoppingWindow(60 s, 10 s hop) &nbsp;|&nbsp;
   CST8916 Week 10 Lab
 </footer>
 
 <script>
-  // Poll /api/events every 2 seconds and refresh the UI
-  const POLL_INTERVAL_MS = 2000;
+  // ─────────────────────────────────────────────────────────────────────────
+  // Constants
+  // ─────────────────────────────────────────────────────────────────────────
+  const EVENTS_POLL_MS    = 2000;
+  const ANALYTICS_POLL_MS = 5000;
 
-  // Colour map for event types
   const TYPE_CLASS = {
     page_view:     "t-page_view",
     product_click: "t-product_click",
@@ -218,26 +347,41 @@
     banner_click:  "t-banner_click",
   };
 
-  function fetchAndRender() {
+  const DEVICE_ICONS = {
+    desktop: "🖥",
+    mobile:  "📱",
+    tablet:  "📟",
+    unknown: "❓",
+  };
+
+  const DEVICE_CLASS = {
+    desktop: "fill-desktop",
+    mobile:  "fill-mobile",
+    tablet:  "fill-tablet",
+    unknown: "fill-unknown",
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // /api/events polling – KPIs, event-type chart, live feed
+  // ─────────────────────────────────────────────────────────────────────────
+  function fetchEvents() {
     fetch("/api/events?limit=50")
-      .then(res => res.json())
+      .then(r => r.json())
       .then(data => {
         renderKPIs(data);
         renderBarChart(data.summary);
         renderFeed(data.events);
       })
-      .catch(err => console.error("Poll error:", err));
+      .catch(err => console.error("Events poll error:", err));
   }
 
-  // ── KPI cards ────────────────────────────────────────────────
   function renderKPIs(data) {
-    document.getElementById("kpi-total").textContent    = data.total ?? 0;
-    document.getElementById("kpi-views").textContent    = data.summary?.page_view    ?? 0;
-    document.getElementById("kpi-cart").textContent     = data.summary?.add_to_cart  ?? 0;
-    document.getElementById("kpi-purchase").textContent = data.summary?.purchase     ?? 0;
+    document.getElementById("kpi-total").textContent   = data.total ?? 0;
+    document.getElementById("kpi-views").textContent   = data.summary?.page_view   ?? 0;
+    document.getElementById("kpi-cart").textContent    = data.summary?.add_to_cart ?? 0;
+    document.getElementById("kpi-purchase").textContent = data.summary?.purchase   ?? 0;
   }
 
-  // ── Bar chart ─────────────────────────────────────────────────
   function renderBarChart(summary) {
     const container = document.getElementById("bar-chart");
     if (!summary || Object.keys(summary).length === 0) return;
@@ -245,47 +389,172 @@
     const maxVal = Math.max(...Object.values(summary), 1);
     container.innerHTML = "";
 
-    // Sort by count descending
-    const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1]);
-    sorted.forEach(([type, count]) => {
-      const pct = (count / maxVal * 100).toFixed(1);
-      const row = document.createElement("div");
-      row.className = "bar-row";
-      row.innerHTML = `
-        <div class="bar-label ${TYPE_CLASS[type] || "t-unknown"}">${type}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-        <div class="bar-count">${count}</div>
-      `;
-      container.appendChild(row);
-    });
+    Object.entries(summary)
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([type, count]) => {
+        const pct = (count / maxVal * 100).toFixed(1);
+        const row = document.createElement("div");
+        row.className = "bar-row";
+        row.innerHTML = `
+          <div class="bar-label ${TYPE_CLASS[type] || "t-unknown"}">${type}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <div class="bar-count">${count}</div>
+        `;
+        container.appendChild(row);
+      });
   }
 
-  // ── Live feed ─────────────────────────────────────────────────
   function renderFeed(events) {
     const feed = document.getElementById("feed");
     if (!events || events.length === 0) return;
 
+    // Update active devices KPI from the feed data
+    const deviceSet = new Set(events.map(e => e.device_type).filter(Boolean));
+    document.getElementById("kpi-devices").textContent = deviceSet.size || "–";
+
     feed.innerHTML = "";
-    // Show newest first
     [...events].reverse().forEach(e => {
-      const ts   = e.timestamp ? e.timestamp.slice(11, 19) : "–";
-      const type = e.event_type || "unknown";
-      const cls  = TYPE_CLASS[type] || "t-unknown";
-      const row  = document.createElement("div");
+      const ts     = e.timestamp ? e.timestamp.slice(11, 19) : "–";
+      const type   = e.event_type || "unknown";
+      const cls    = TYPE_CLASS[type] || "t-unknown";
+      const device = e.device_type || "–";
+      const row    = document.createElement("div");
       row.className = "feed-row";
       row.innerHTML = `
         <span class="feed-ts">${ts}</span>
         <span class="feed-type ${cls}">${type}</span>
+        <span class="feed-device">${DEVICE_ICONS[device] || "❓"} ${device}</span>
         <span class="feed-page">${e.page || "–"}</span>
-        <span class="feed-user">${(e.user_id || "–").slice(0, 8)}</span>
       `;
       feed.appendChild(row);
     });
   }
 
-  // Kick off polling immediately, then repeat
-  fetchAndRender();
-  setInterval(fetchAndRender, POLL_INTERVAL_MS);
+  // ─────────────────────────────────────────────────────────────────────────
+  // /api/analytics polling – device breakdown + spike detection
+  // ─────────────────────────────────────────────────────────────────────────
+  function fetchAnalytics() {
+    fetch("/api/analytics")
+      .then(r => r.json())
+      .then(data => {
+        updateSourceBadges(data.source);
+        renderDeviceBreakdown(data.device_breakdown);
+        renderSpikeChart(data.spike_windows);
+      })
+      .catch(err => console.error("Analytics poll error:", err));
+  }
+
+  function updateSourceBadges(source) {
+    const isSA    = source === "stream_analytics";
+    const label   = isSA ? "stream analytics" : "local buffer";
+    const cls     = isSA ? "source-sa" : "source-local";
+    const remove  = isSA ? "source-local" : "source-sa";
+
+    ["device-source-badge", "spike-source-badge"].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = label;
+      el.classList.add(cls);
+      el.classList.remove(remove);
+    });
+  }
+
+  // ── Device breakdown panel ──────────────────────────────────
+  function renderDeviceBreakdown(rows) {
+    const container = document.getElementById("device-breakdown");
+    if (!rows || rows.length === 0) {
+      container.innerHTML = '<p class="empty">No device data yet…</p>';
+      return;
+    }
+
+    const total  = rows.reduce((s, r) => s + (r.event_count || 0), 0);
+    const maxVal = Math.max(...rows.map(r => r.event_count || 0), 1);
+    container.innerHTML = "";
+
+    rows.forEach(r => {
+      const dt   = (r.deviceType || "unknown").toLowerCase();
+      const cnt  = r.event_count || 0;
+      const pct  = total > 0 ? ((cnt / total) * 100).toFixed(1) : "0.0";
+      const barW = (cnt / maxVal * 100).toFixed(1);
+      const icon = DEVICE_ICONS[dt] || "❓";
+      const cls  = DEVICE_CLASS[dt] || "fill-unknown";
+
+      const row = document.createElement("div");
+      row.className = "device-row";
+      row.innerHTML = `
+        <div class="device-icon">${icon}</div>
+        <div class="device-name">${dt}</div>
+        <div class="device-track">
+          <div class="device-fill ${cls}" style="width:${barW}%"></div>
+        </div>
+        <div class="device-count">${cnt}</div>
+        <div class="device-pct">${pct}%</div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  // ── Spike detection panel ───────────────────────────────────
+  function renderSpikeChart(windows) {
+    const container = document.getElementById("spike-chart");
+    if (!windows || windows.length === 0) {
+      container.innerHTML = '<p class="empty">No window data yet…</p>';
+      return;
+    }
+
+    const maxCount = Math.max(...windows.map(w => w.event_count || 0), 1);
+    const hasSpike = windows.some(w => w.is_spike);
+
+    // Bar timeline
+    const grid = document.createElement("div");
+    grid.className = "spike-grid";
+
+    windows.forEach(w => {
+      const cnt    = w.event_count || 0;
+      const pct    = ((cnt / maxCount) * 100).toFixed(1);
+      const isSpike = w.is_spike;
+
+      const wrap  = document.createElement("div");
+      wrap.className = "spike-bar-wrap";
+      wrap.innerHTML = `
+        <div class="spike-bar-track">
+          <div class="spike-bar-fill ${isSpike ? "spike" : "normal"}"
+               style="height:${pct}%" title="${cnt} events"></div>
+        </div>
+        <div class="spike-label">${w.window_end || ""}</div>
+      `;
+      grid.appendChild(wrap);
+    });
+
+    // Legend
+    const legend = document.createElement("div");
+    legend.className = "spike-legend";
+    legend.innerHTML = `
+      <span><div class="legend-dot dot-normal"></div> Normal</span>
+      <span><div class="legend-dot dot-spike"></div> Spike</span>
+    `;
+
+    // Status indicator
+    const status = document.createElement("div");
+    const latestSpike = [...windows].reverse().find(w => w.is_spike);
+    status.className = `spike-status ${hasSpike ? "alert" : "normal"}`;
+    status.textContent = hasSpike
+      ? `⚠ Spike detected at ${latestSpike?.window_end || "recent window"} — elevated traffic`
+      : "✓ Traffic is within normal range";
+
+    container.innerHTML = "";
+    container.appendChild(grid);
+    container.appendChild(legend);
+    container.appendChild(status);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Bootstrap
+  // ─────────────────────────────────────────────────────────────────────────
+  fetchEvents();
+  fetchAnalytics();
+
+  setInterval(fetchEvents,    EVENTS_POLL_MS);
+  setInterval(fetchAnalytics, ANALYTICS_POLL_MS);
 </script>
 </body>
 </html>
